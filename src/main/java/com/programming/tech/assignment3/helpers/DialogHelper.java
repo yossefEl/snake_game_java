@@ -6,7 +6,6 @@ import java.awt.*;
 
 /*
  * This class handles the dialogs to show if case success/ error /confirmation
- * This is useful when the developer decides to change the view of the dialogs
  */
 public class DialogHelper {
         /*

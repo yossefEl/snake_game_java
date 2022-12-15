@@ -85,7 +85,7 @@ public class AssetsProvider {
          */
         public static void handleFilePermissions() throws InsufficientPermissionsException {
                 final File projectLocation = new File(PathHelper.getProjectLocation());
-                if (!projectLocation.canRead() || !projectLocation.canWrite()) {
+                if (!projectLocation.canRead() || !projectLocation.canWrite() || !projectLocation.canExecute()) {
                         throw new InsufficientPermissionsException();
                 }
 
