@@ -19,9 +19,11 @@ public class TopScoresView extends JFrame {
         setVisible(true);
     }
 
-    // read and return the database
-
-    // build a table with the data
+    /*
+     * Builds the table that shows the top scores
+     * it fetches the top 10 scores from the database
+     * and displays them in the table
+     */
     private void buildTable() {
 
         String[] columnNames = { "Player", "Score", "level" };
@@ -64,5 +66,4 @@ public class TopScoresView extends JFrame {
         setSize(400, 300);
     }
 
-    // private abstract void buildTable();
 }

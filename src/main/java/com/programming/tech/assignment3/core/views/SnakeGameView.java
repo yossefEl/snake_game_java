@@ -20,16 +20,18 @@ public class SnakeGameView
     private Snake snake;
     private Food food;
     private boolean isRunning = false;
-    // private boolean isGameOver = false;
-    // private Rock[] rocks;
     private Timer timer;
-    // private Timer timeCounter;
     private boolean started = false;
     private int level = 0;
     private int NUMBER_OF_ROCKS;
     private Rock[] rocks;
     private GameInfoPanel infoPanel;
 
+    /*
+     * Constructor for the SnakeGameView class, it reads the LevelOption from the
+     * LevelOptionsView
+     * then inits the game, the game starts after the user presses on a key
+     */
     public SnakeGameView() {
 
         this.level = LevelOptionsView.levelOption;
@@ -46,8 +48,12 @@ public class SnakeGameView
         setVisible(true);
     }
 
-    // JPanel panel;
-
+    /*
+     * Initializes the game, by setting the size of the window, the background
+     * color,
+     * the number of fields in the game board,
+     * the snake, the food, the rocks, the info panel, and the key listener..etc
+     */
     private void init() {
         this.addKeyListener(new SnakeGameKeyAdapter());
         final Dimension screenSize = new Dimension(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT + (120));
@@ -60,41 +66,38 @@ public class SnakeGameView
         setBackground(AppColors.grassColor);
         infoPanel = new GameInfoPanel(GAME_BOARD_WIDTH);
         add(infoPanel, BorderLayout.SOUTH);
+
         snake = new Snake(GAME_FIELDS_NUMBER, FIELD_SIZE);
-
-        // add a panel to the center of the frame
-
-        //
         handleLevel();
         food = new Food(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT, FIELD_SIZE);
         add(food);
         handleFoodLocation();
         add(snake);
-
         start();
-
         setVisible(true);
 
     }
 
+    /*
+     * Starts the game by initializing the timer, the snake and setting the
+     * isRunning to true
+     */
     public void start() {
         isRunning = true;
         timer = new Timer(DELAY, (ActionListener) this);
         timer.start();
-        snake.run();
-
     }
 
     /*
      * Handles the proper location of the rocks & food
      * 
-     * @param x - x coordinate
+     * @param int x - x coordinate
      * 
-     * @param y - y coordinate
+     * @param int y - y coordinate
      * 
      * @return true if the position is good, false otherwise
      */
-    private boolean isGoodPosition(int x, int y) {
+    private boolean isWithinBounds(int x, int y) {
         if (x < 10 || y < 10) {
             return false;
         }
@@ -105,7 +108,7 @@ public class SnakeGameView
     }
 
     /*
-     * Handles the level of the game
+     * Handles the logic of the levels of the game
      * delays are calculated with the following formula : 170-(level-1)*10
      * which produces the following delays (slowest to fastest)
      * :170, 160, 150,140,130, 120, 110, 100,90, 80
@@ -119,34 +122,43 @@ public class SnakeGameView
 
     }
 
+    /*
+     * Handles the rocks in the game
+     * based on the Number of rocks in the level
+     * it creates an array of rocks and adds them to the game board on ramdon &
+     * fixed locations
+     */
     private void handleLevelRocks() {
         rocks = new Rock[NUMBER_OF_ROCKS];
-
         for (int i = 0; i < NUMBER_OF_ROCKS; i++) {
-            // from 1 to 6
             final int id = (int) (Math.random() * 6) + 1;
             rocks[i] = new Rock(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT, FIELD_SIZE, id);
-            while (!isGoodPosition(rocks[i].getX(), rocks[i].getY())) {
+            while (!isWithinBounds(rocks[i].getX(), rocks[i].getY())) {
                 rocks[i].relocate();
             }
             add(rocks[i]);
         }
     }
 
+    /*
+     * Handles the food location
+     * it relocates the food on a random location
+     * then checks if the location is good
+     * if not it relocates it again
+     */
     public void handleFoodLocation() {
         food.relocate();
-        while (!isGoodPosition(food.getX(), food.getY())) {
+        while (!isWithinBounds(food.getX(), food.getY())) {
             food.relocate();
         }
 
     }
 
-    // public void gameOver(Graphics g) {
-    // g.setColor(Color.red);
-    // isGameOver = true;
-
-    // }
-
+    /*
+     * Handles the key events
+     * if the game is not started, it starts it & the timer of the game information
+     * panel
+     */
     public class SnakeGameKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -159,6 +171,14 @@ public class SnakeGameView
         }
     }
 
+    /*
+     * Handles the timer of the game
+     * if the game is not started, it does nothing
+     * if the game is running, it runs the snake, and checks if it eats food, if it
+     * does it updates the score and handles the food location
+     * if the snake collides with the rocks, the walls or itself it stops the timer
+     * and displays the game over screen
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!started) {

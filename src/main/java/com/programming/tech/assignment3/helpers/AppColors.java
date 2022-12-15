@@ -11,5 +11,6 @@ public class AppColors {
 
     public static final Color goundColor = new Color(155, 118, 83);
     public static final Color grassColor = new Color(161, 194, 76);
+    public static final Color rockColor = new Color(139, 69, 19);
 
 }

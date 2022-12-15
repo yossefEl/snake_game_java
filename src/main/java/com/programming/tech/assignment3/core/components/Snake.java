@@ -13,6 +13,11 @@ public class Snake extends JComponent {
     private char direction;
     private int foodsEaten = 0;
 
+    /*
+     * Constructor for the snake class, it takes the total number of field units and
+     * the size of each unit as parameters
+     * then inits the snake's body
+     */
     public Snake(int totalFieldUnits, int unit) {
         this.FIELD_SIZE = unit;
         final char[] directions = { 'U', 'R', 'D', 'L' };
@@ -20,18 +25,31 @@ public class Snake extends JComponent {
         xCordinates = new int[totalFieldUnits];
         yCordinates = new int[totalFieldUnits];
         initSnakeBody();
+
         setVisible(true);
 
     }
 
+    /*
+     * inits the snake's body by randomizing its head position and setting the
+     */
     private void initSnakeBody() {
         // randomize the snake's head position
         xCordinates[0] = (int) (Math.random() * 20) * FIELD_SIZE;
-        yCordinates[1] = (int) (Math.random() * 20) * FIELD_SIZE;
-        yCordinates[0] = xCordinates[1] = xCordinates[0];
+        yCordinates[0] = (int) (Math.random() * 20) * FIELD_SIZE;
+        xCordinates[1] = xCordinates[0];
         yCordinates[1] = yCordinates[0] + FIELD_SIZE;
 
+        // fix the snake's head direction
+
     }
+
+    /*
+     * runs the snake's body by moving each part of the body to the position of the
+     * part in front of it
+     * then moves the head to the next position based on the direction the snake is
+     * moving in
+     */
 
     public void run() {
         for (int i = body; i > 0; i--) {
@@ -55,6 +73,10 @@ public class Snake extends JComponent {
         }
 
     }
+
+    /*
+     * checks if the snake is colliding with itself or the walls or the rocks
+     */
 
     public boolean isCollidingWith(int verticalWall, int horizontalWall, Rock rocks[]) {
         for (int i = body; i > 0; i--) {
@@ -80,6 +102,9 @@ public class Snake extends JComponent {
 
     }
 
+    /*
+     * paints and refreshes the snake's body
+     */
     @Override
     protected void paintComponent(Graphics g) {
 
@@ -97,6 +122,14 @@ public class Snake extends JComponent {
         super.paintComponent(g);
     }
 
+    /*
+     * checks if the snake is eating the food, if it is, it increases the snake's
+     * body and the number of foods eaten
+     * 
+     * @param food the food to check if the snake is eating it
+     * 
+     * @return true if the snake is eating the food, false otherwise
+     */
     public boolean eatFood(Food food) {
         if (food == null) {
             return false;
@@ -110,57 +143,61 @@ public class Snake extends JComponent {
 
     }
 
-    /**
+    /*
      * @return int return the xCordinates[]
      */
     public int[] getXCordinates() {
         return xCordinates;
     }
 
-    /**
+    /*
      * @param xCordinates[] the xCordinates[] to set
      */
     public void setXCordinates(int[] xCordinates) {
         this.xCordinates = xCordinates;
     }
 
-    /**
+    /*
      * @return int return the yCordinates[]
      */
     public int[] getYCordinates() {
         return yCordinates;
     }
 
-    /**
+    /*
      * @param yCordinates[] the yCordinates[] to set
      */
     public void setYCordinates(int[] yCordinates) {
         this.yCordinates = yCordinates;
     }
 
-    /**
+    /*
      * @return int return the body
      */
     public int getBody() {
         return body;
     }
 
-    /**
+    /*
      * @param body the body to set
      */
     public void setBody(int body) {
         this.body = body;
     }
 
-    /**
+    /*
      * @return char return the direction
      */
     public char getDirection() {
         return direction;
     }
 
-    /**
-     * @param direction the direction to set
+    /*
+     * Handles the direction of the snake based on the key pressed by the user
+     * Arrows or SWAD keys are used to control the snake
+     * 
+     * @param int key the key to set the direction to based on the key pressed
+     * 
      */
     public void setDirection(int key) {
         // WASD or arrow keys
@@ -184,11 +221,10 @@ public class Snake extends JComponent {
 
     }
 
+    /*
+     * @return int return the foodsEaten
+     */
     public int getFoodsEaten() {
         return foodsEaten;
-    }
-
-    public void setFoodsEaten(int foodsEaten) {
-        this.foodsEaten = foodsEaten;
     }
 }

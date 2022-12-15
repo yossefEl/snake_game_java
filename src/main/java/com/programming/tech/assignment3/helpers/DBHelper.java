@@ -7,16 +7,20 @@ import java.sql.*;
  */
 public class DBHelper {
 
-    // singleton instance
-    private static DBHelper instance = null;
-    private Connection connection = null;
+    private static DBHelper instance = null; // singleton instance
 
+    private Connection connection = null;
     private final String DB_NAME = "snake.db";
     private final String TABLE_NAME = "scores";
 
     private DBHelper() {
     }
 
+    /*
+     * returns the singleton instance of this class
+     * 
+     * @return DBHelper: the singleton instance of this class
+     */
     public static DBHelper getInstance() {
         if (instance == null) {
             instance = new DBHelper();
@@ -24,7 +28,12 @@ public class DBHelper {
         return instance;
     }
 
-    // connect to a sqlite db
+    /*
+     * connects to the database, it creates the database if it doesn't exist and it
+     * creates the table if it doesn't exist
+     * 
+     * @return boolean: true if the connection was successful, false otherwise
+     */
     public boolean connectToDatabase() {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -38,7 +47,11 @@ public class DBHelper {
         return true;
     }
 
-    // check if the table exists
+    /*
+     * checks if the table exists
+     * 
+     * @return boolean: true if the table exists, false otherwise
+     */
     public boolean checkTable() {
         // check if the table scores exists
         final String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + TABLE_NAME + "';";
@@ -55,6 +68,10 @@ public class DBHelper {
 
     }
 
+    /*
+     * creates the table if it doesn't exist
+     */
+
     public void createTable() {
         // id, name, score, level
         final String sql = "CREATE TABLE " + TABLE_NAME + " (\n" + " id integer PRIMARY KEY,\n"
@@ -63,15 +80,25 @@ public class DBHelper {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            DialogHelper.showErrorMessage(null, "Error",
+                    "Something went wrong while creating the table, please check if the application has the right permissions to create the database file");
+            System.exit(1);
         }
     }
 
-    // close the connection
+    /*
+     * closes the connection to the database
+     */
     public void closeConnection() throws SQLException {
         connection.close();
     }
 
+    /*
+     * returns the instance of the connection to the database to be used by other
+     * classes
+     * 
+     * @return Connection: the connection to the database
+     */
     public Connection getConnection() {
         return connection;
     }

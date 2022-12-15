@@ -11,11 +11,6 @@ public class GameInfoPanel extends JPanel {
     private int score;
     private Timer timeCounter;
     private JLabel scoreLabel;
-
-    public Timer getTimeCounter() {
-        return timeCounter;
-    }
-
     private long startTime;
 
     public GameInfoPanel(int width) {
@@ -27,16 +22,24 @@ public class GameInfoPanel extends JPanel {
 
         scoreLabel = new JLabel(String.valueOf(score), icon, JLabel.LEFT);
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        scoreLabel.setForeground(Color.WHITE);
 
         scoreLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         this.add(scoreLabel, BorderLayout.WEST);
 
         timeLabel = new JLabel("00:00:00", JLabel.CENTER);
         timeLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        timeLabel.setForeground(Color.WHITE);
+
         timeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         this.add(timeLabel, BorderLayout.EAST);
     }
 
+    /*
+     * This method returns the elapsed time in the format hh:mm:ss
+     * 
+     * @return String elapsed time in the format hh:mm:ss
+     */
     public String getElapsedTime() {
         final long elapsedTimesMS = System.currentTimeMillis() - startTime;
         // format the time
@@ -46,6 +49,9 @@ public class GameInfoPanel extends JPanel {
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
+    /*
+     * This method starts the timer and sets the start time
+     */
     public void start() {
         startTime = System.currentTimeMillis();
         timeCounter = new Timer(10, e -> {
@@ -53,15 +59,26 @@ public class GameInfoPanel extends JPanel {
         });
     }
 
+    /*
+     * This method stops the timer
+     */
     public void stop() {
         timeCounter.stop();
     }
 
+    /*
+     * This method updates the score
+     * 
+     * @param score the new score
+     */
     public void updateScore(int score) {
         this.score = score;
-        scoreLabel.setText("Score: " + score);
+        scoreLabel.setText(String.valueOf(score));
     }
 
+    /*
+     * Refreshes the time label using the getElapsedTime method
+     */
     @Override
     protected void paintComponent(Graphics g) {
 
@@ -70,4 +87,15 @@ public class GameInfoPanel extends JPanel {
         }
         super.paintComponent(g);
     }
+
+    /*
+     * Time counter getter
+     * 
+     * @return Timer the time counter
+     */
+
+    public Timer getTimeCounter() {
+        return timeCounter;
+    }
+
 }

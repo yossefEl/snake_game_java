@@ -1,14 +1,15 @@
 package com.programming.tech.assignment3.helpers;
 
-/*
-*because UNIX based operating systems and Windows have different syntax
-* so to make that all the assets and access files requests works properly
-* This why this class helper created ..it's for handling paths
-*/
-
 import java.util.regex.Matcher;
+/*
+ * this class will convert the path to the current OS path syntax
+ * to make sure that all the assets and the access to program's files requests
+ * works properly
+ * because UNIX based operating systems and Windows have different path syntaxes
+ */
 
 public class PathHelper {
+
     /*
      * In case the program is running under a windows OS this will convert the path
      * to Windows path syntax
@@ -40,10 +41,12 @@ public class PathHelper {
      * returns the current project directory [the location of Main.java file]
      */
     public static String getProjectLocation() {
-        // System.out.println(System.getProperty("user.dir"));
         return System.getProperty("user.dir");
     }
 
+    /*
+     * the path of the assets folder
+     */
     public final static String PROJECT_ASSETS_PATH = getProjectLocation()
             + toCurrentOSPathSyntax("/src/main" + toCurrentOSPathSyntax("/assets/"));
 }

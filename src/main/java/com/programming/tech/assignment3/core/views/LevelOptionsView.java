@@ -12,11 +12,15 @@ public class LevelOptionsView extends JFrame {
     public static int levelOption = 1;
 
     public LevelOptionsView() {
-        init();
-
+        buildUI();
     }
 
-    private void init() {
+    /*
+     * Builds the UI of the LevelOptions View and manages the user selection
+     * after the user selects a level and clicks on the start button, this view
+     * disposes and the game starts
+     */
+    private void buildUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(300, 300));
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));

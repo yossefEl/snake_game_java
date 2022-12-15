@@ -23,8 +23,10 @@ public class Food extends JComponent {
 
     }
 
+    /*
+     * Relocates the food to a random position and sets its bounds
+     */
     public void relocate() {
-        // within the range of the parent component
         final int x = (int) new Random().nextInt(parentWidth / FIELD_SIZE) * FIELD_SIZE;
         final int y = (int) new Random().nextInt(parentHeight / FIELD_SIZE) * FIELD_SIZE;
         setBounds(x, y, FIELD_SIZE, FIELD_SIZE);
@@ -35,13 +37,18 @@ public class Food extends JComponent {
         return "Food [x=" + this.getX() + ", y=" + this.getY() + "]";
     }
 
+    /*
+     * Paints the food on the game board using the food image, if the asset is not
+     * found it will be painted as a red square
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         try {
             g.drawImage(AssetsProvider.foodImageIcon, 0, 0, FIELD_SIZE, FIELD_SIZE, null);
         } catch (Exception e) {
-            setBackground(Color.red);
+            g.fillRect(0, 0, FIELD_SIZE, FIELD_SIZE);
+            g.setColor(Color.red);
         }
         setVisible(true);
     }
