@@ -67,7 +67,7 @@ public class SnakeGameView
         infoPanel = new GameInfoPanel(GAME_BOARD_WIDTH);
         add(infoPanel, BorderLayout.SOUTH);
 
-        snake = new Snake(GAME_FIELDS_NUMBER, FIELD_SIZE);
+        snake = new Snake(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT, GAME_FIELDS_NUMBER, FIELD_SIZE);
         handleLevel();
         food = new Food(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT, FIELD_SIZE);
         add(food);
@@ -103,6 +103,12 @@ public class SnakeGameView
         }
         if (x >= GAME_BOARD_WIDTH - 10 || y >= GAME_BOARD_HEIGHT - 10) {
             return false;
+        }
+        // not on the snake
+        for (int i = 0; i < snake.getBody(); i++) {
+            if (snake.getXCordinates()[i] == x && snake.getXCordinates()[i] == y) {
+                return false;
+            }
         }
         return true;
     }

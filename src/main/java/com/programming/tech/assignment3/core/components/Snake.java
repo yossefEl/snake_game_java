@@ -12,13 +12,17 @@ public class Snake extends JComponent {
     private int body = 2;
     private char direction;
     private int foodsEaten = 0;
+    private int parentWidth;
+    private int parentHeight;
 
     /*
      * Constructor for the snake class, it takes the total number of field units and
      * the size of each unit as parameters
      * then inits the snake's body
      */
-    public Snake(int totalFieldUnits, int unit) {
+    public Snake(int pwidth, int pheight, int totalFieldUnits, int unit) {
+        this.parentWidth = pwidth;
+        this.parentHeight = pheight;
         this.FIELD_SIZE = unit;
         final char[] directions = { 'U', 'R', 'D', 'L' };
         direction = directions[(int) (Math.random() * 4)];
@@ -34,13 +38,12 @@ public class Snake extends JComponent {
      * inits the snake's body by randomizing its head position and setting the
      */
     private void initSnakeBody() {
-        // randomize the snake's head position
-        xCordinates[0] = (int) (Math.random() * 20) * FIELD_SIZE;
-        yCordinates[0] = (int) (Math.random() * 20) * FIELD_SIZE;
-        xCordinates[1] = xCordinates[0];
-        yCordinates[1] = yCordinates[0] + FIELD_SIZE;
 
-        // fix the snake's head direction
+        // center the snake
+        xCordinates[0] = (parentWidth / 2) - (parentWidth / 2) % FIELD_SIZE;
+        yCordinates[0] = (parentHeight / 2) - (parentHeight / 2) % FIELD_SIZE;
+        xCordinates[1] = xCordinates[0] - FIELD_SIZE;
+        yCordinates[1] = yCordinates[0];
 
     }
 
